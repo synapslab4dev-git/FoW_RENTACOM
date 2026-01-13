@@ -1,0 +1,111 @@
+/* Variables de couleur Synaps LAB */
+:root {
+    --bleu-nuit: #032139;
+    --bleu-ciel: #2E92EA;
+    --orange-vif: #FFA500;
+    --gris-clair: #f4f4f4;
+    --texte-couleur: #333;
+}
+
+/* Reset et styles de base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    color: var(--texte-couleur);
+    background-color: var(--gris-clair);
+    padding: 20px;
+}
+
+/* Structure et Conteneurs */
+header, footer {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--bleu-nuit);
+    margin-bottom: 5px;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.9em;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: var(--bleu-nuit);
+    border-bottom: 2px solid var(--orange-vif);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Styles des formulaires (Inputs) */
+.input-group, .produit-item {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.produit-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+/* Styles des résultats (Outputs) */
+#resultat-principal {
+    background-color: var(--bleu-nuit);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#seuil-total-ventes {
+    display: block;
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--orange-vif);
+}
+
+#repartition-ventes {
+    list-style: none;
+}
+
+#repartition-ventes li {
+    background-color: var(--gris-clair);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}

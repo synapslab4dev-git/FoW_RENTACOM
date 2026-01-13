@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentacom - Simulateur de Rentabilité</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1>Rentacom</h1>
+        <p>Calculez le seuil de rentabilité de votre communication.</p>
+    </header>
+
+    <main>
+        <section id="inputs-section">
+            <h2>1. Vos Données</h2>
+            
+            <div class="input-group">
+                <label for="cout-campagne">Coût total de la campagne (FCFA)</label>
+                <input type="number" id="cout-campagne" placeholder="Ex: 50000">
+            </div>
+
+            <div id="produits-container">
+                <h3>Vos Produits</h3>
+                <!-- Les produits seront ajoutés dynamiquement ici, mais on met un exemple -->
+                <div class="produit-item">
+                    <input type="text" class="nom-produit" placeholder="Nom du produit (Ex: Jus de Bissap)">
+                    <input type="number" class="prix-vente" placeholder="Prix de vente">
+                    <input type="number" class="cout-revient" placeholder="Coût de revient">
+                    <input type="number" class="mix-ventes" placeholder="Ventes sur 10">
+                </div>
+                 <div class="produit-item">
+                    <input type="text" class="nom-produit" placeholder="Nom du produit (Ex: Jus de Gingembre)">
+                    <input type="number" class="prix-vente" placeholder="Prix de vente">
+                    <input type="number" class="cout-revient" placeholder="Coût de revient">
+                    <input type="number" class="mix-ventes" placeholder="Ventes sur 10">
+                </div>
+            </div>
+            <!-- On ajoutera un bouton "Ajouter un produit" plus tard -->
+
+        </section>
+
+        <section id="outputs-section">
+            <h2>2. Vos Résultats</h2>
+
+            <div id="resultat-principal">
+                <p>Votre seuil de rentabilité est de :</p>
+                <span id="seuil-total-ventes">...</span>
+                <p>ventes au total</p>
+            </div>
+
+            <div id="resultat-detail">
+                <h3>Plan d'action détaillé :</h3>
+                <ul id="repartition-ventes">
+                    <!-- Les résultats détaillés apparaîtront ici -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Un outil conçu par <strong>Synaps LAB</strong></p>
+    </footer>
+
+</body>
+</html>
