@@ -6,17 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const produitsContainer = document.getElementById('produits-container');
     const seuilTotalVentesSpan = document.getElementById('seuil-total-ventes');
     const repartitionVentesUl = document.getElementById('repartition-ventes');
+    
+    // NOUVEAU : On sélectionne notre bouton "Calculer"
+    const calculateBtn = document.getElementById('calculate-btn');
 
     // --- 3. LE MOTEUR DE CALCUL (Logique pure) ---
-    // Prend les données en entrée, retourne les résultats.
+    // Cette partie ne change pas. C'est notre moteur, il est parfait.
     function calculerRentabilite(data) {
         const { coutCampagne, produits } = data;
 
         if (coutCampagne <= 0 || produits.length === 0) {
-            return null; // Pas de calcul si les données de base manquent
+            return null;
         }
 
-        // Étape 1 & 2 : Calculer la marge moyenne pondérée
         let margeTotalePonderee = 0;
         let totalMix = 0;
         produits.forEach(p => {
@@ -28,11 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalMix === 0) return null;
         const margeMoyennePonderee = margeTotalePonderee / totalMix;
 
-        // Étape 3 : Calculer le seuil de rentabilité global
         if (margeMoyennePonderee <= 0) return { seuilTotal: Infinity, repartition: [] };
         const seuilTotal = coutCampagne / margeMoyennePonderee;
 
-        // Étape 4 : Calculer la répartition par produit
         const repartition = produits.map(p => ({
             nom: p.nom,
             quantite: Math.round(seuilTotal * (p.mixVentes / totalMix))
@@ -45,10 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. GESTION DE L'INTERFACE (UI) ---
-    
-    // Fonction principale qui orchestre tout
+    // Cette fonction est maintenant appelée UNIQUEMENT par le bouton
     function mettreAJourCalculs() {
-        // a. Récupérer les données depuis les champs input
         const coutCampagne = parseFloat(coutCampagneInput.value) || 0;
         const produitItems = document.querySelectorAll('.produit-item');
         
@@ -59,16 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const coutRevient = parseFloat(item.querySelector('.cout-revient').value) || 0;
             const mixVentes = parseFloat(item.querySelector('.mix-ventes').value) || 0;
 
-            if (prixVente > 0) { // On ajoute le produit seulement s'il a un prix
+            if (prixVente > 0) {
                  produits.push({ nom, prixVente, coutRevient, mixVentes });
             }
         });
         
-        // b. Appeler le moteur de calcul avec ces données
         const data = { coutCampagne, produits };
         const resultat = calculerRentabilite(data);
 
-        // c. Afficher les résultats dans le DOM
         if (resultat) {
             if (resultat.seuilTotal === Infinity) {
                 seuilTotalVentesSpan.textContent = "∞";
@@ -85,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. ÉCOUTEURS D'ÉVÉNEMENTS ---
-    // On relance le calcul à chaque fois qu'une valeur change
-    const allInputs = document.querySelectorAll('input');
-    allInputs.forEach(input => {
-        input.addEventListener('keyup', mettreAJourCalculs);
-        input.addEventListener('change', mettreAJourCalculs);
-    });
+    // --- 5. ÉCOUTEURS D'ÉVÉNEMENTS (LA PARTIE MODIFIÉE) ---
+    
+    // SUPPRIMÉ : L'ancienne logique qui écoutait tous les inputs.
+    
+    // NOUVEAU : On ajoute un seul écouteur d'événement sur le clic du bouton.
+    // C'est lui, et seulement lui, qui déclenche le calcul.
+    calculateBtn.addEventListener('click', mettreAJourCalculs);
 });
