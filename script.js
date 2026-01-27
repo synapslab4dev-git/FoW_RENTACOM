@@ -8,7 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.getElementById('calculate-btn');
     const addProductBtn = document.getElementById('add-product-btn');
 
-    // --- MOTEUR DE CALCUL MIS À JOUR ---
+    // --- NOUVELLE FONCTION CLÉ : MISE À JOUR DE L'INTERFACE ---
+    function updateUIMode() {
+        const produitItems = document.querySelectorAll('.produit-item');
+        if (produitItems.length > 1) {
+            produitsContainer.classList.remove('mono-produit');
+            produitsContainer.classList.add('multi-produits');
+        } else {
+            produitsContainer.classList.remove('multi-produits');
+            produitsContainer.classList.add('mono-produit');
+        }
+    }
+
+    // --- MOTEUR DE CALCUL ---
     function calculerRentabilite(data) {
         const { coutCampagne, produits } = data;
         if (coutCampagne <= 0 || produits.length === 0) return null;
@@ -45,16 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // --- GESTION DE L'INTERFACE MIS À JOUR ---
+    // --- GESTION DE L'INTERFACE (Calculs) ---
     function mettreAJourCalculs() {
         const coutCampagne = parseFloat(coutCampagneInput.value) || 0;
         const produitItems = document.querySelectorAll('.produit-item');
         const produits = [];
+        const isMultiProductMode = produitItems.length > 1;
+
         produitItems.forEach(item => {
             const nom = item.querySelector('.nom-produit').value || "Produit non nommé";
             const prixVente = parseFloat(item.querySelector('.prix-vente').value) || 0;
             const coutRevient = parseFloat(item.querySelector('.cout-revient').value) || 0;
-            const mixVentes = parseFloat(item.querySelector('.mix-ventes').value) || 0;
+            // Si on est en mode mono-produit, le mix est toujours 10. Sinon, on lit la valeur.
+            const mixVentes = isMultiProductMode ? (parseFloat(item.querySelector('.mix-ventes').value) || 0) : 10;
+            
             if (prixVente > 0) { produits.push({ nom, prixVente, coutRevient, mixVentes }); }
         });
         
@@ -89,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="delete-btn">X</button>
         `;
         produitsContainer.appendChild(newProductLine);
+        updateUIMode(); // Met à jour l'interface après l'ajout
     }
 
     function supprimerLigneProduit(event) {
@@ -96,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const produitItems = document.querySelectorAll('.produit-item');
             if (produitItems.length > 1) {
                 event.target.parentElement.remove();
+                updateUIMode(); // Met à jour l'interface après la suppression
             }
         }
     }
@@ -104,4 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateBtn.addEventListener('click', mettreAJourCalculs);
     addProductBtn.addEventListener('click', ajouterLigneProduit);
     produitsContainer.addEventListener('click', supprimerLigneProduit);
+
+    // Lancement initial pour régler l'état de départ
+    updateUIMode();
 });
