@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (coutCampagne <= 0 || produits.length === 0) return null;
 
         let margeTotalePonderee = 0;
-        let caTotalPondere = 0; // NOUVEAU : On calcule aussi le CA moyen pondéré
+        let caTotalPondere = 0;
         let totalMix = 0;
         
         produits.forEach(p => {
             const margeUnitaire = p.prixVente - p.coutRevient;
             margeTotalePonderee += margeUnitaire * p.mixVentes;
-            caTotalPondere += p.prixVente * p.mixVentes; // Ajout du calcul du CA pondéré
+            caTotalPondere += p.prixVente * p.mixVentes;
             totalMix += p.mixVentes;
         });
 
@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const seuilTotalVentes = coutCampagne / margeMoyennePonderee;
         
-        // NOUVEAU CALCUL : Chiffre d'Affaires Cible
         const caMoyenParVente = caTotalPondere / totalMix;
         const seuilChiffreAffaires = seuilTotalVentes * caMoyenParVente;
 
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- GESTION DE L'INTERFACE MIS À JOUR ---
     function mettreAJourCalculs() {
-        // ... (la partie récupération des données reste identique) ...
         const coutCampagne = parseFloat(coutCampagneInput.value) || 0;
         const produitItems = document.querySelectorAll('.produit-item');
         const produits = [];
@@ -63,13 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = { coutCampagne, produits };
         const resultat = calculerRentabilite(data);
 
-        // MISE À JOUR DE L'AFFICHAGE
         if (resultat) {
             if (resultat.seuilCA === Infinity) {
                 seuilPrincipalValeurSpan.textContent = "∞";
                 repartitionVentesUl.innerHTML = "<li>Vos coûts sont supérieurs à vos prix de vente. Rentabilité impossible.</li>";
             } else {
-                // Formatter le nombre pour la lisibilité
                 seuilPrincipalValeurSpan.textContent = `${resultat.seuilCA.toLocaleString('fr-FR')} FCFA`;
                 repartitionVentesUl.innerHTML = resultat.repartition
                     .map(p => `<li><strong>${p.quantite}</strong> x ${p.nom}</li>`)
@@ -81,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- FONCTIONS D'AJOUT/SUPPRESSION (identiques) ---
+    // --- FONCTIONS D'AJOUT/SUPPRESSION ---
     function ajouterLigneProduit() {
         const newProductLine = document.createElement('div');
         newProductLine.classList.add('produit-item');
@@ -104,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- ÉCOUTEURS D'ÉVÉNEMENTS (identiques) ---
+    // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
     calculateBtn.addEventListener('click', mettreAJourCalculs);
     addProductBtn.addEventListener('click', ajouterLigneProduit);
     produitsContainer.addEventListener('click', supprimerLigneProduit);
