@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-<!-- ... (La partie <head> reste identique) ... -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,11 @@
 </head>
 <body>
 
-    <!-- ... (header et section inputs restent quasi-identiques) ... -->
+    <div class="partner-logos">
+        <img src="assets/logo-mastercard.png" alt="Mastercard Foundation Logo">
+        <img src="assets/logo-fow.png" alt="Future of Work in Africa Logo">
+    </div>
+
     <header>
         <h1>Rentacom</h1>
         <p>Calculez le seuil de rentabilité de votre communication.</p>
@@ -45,15 +48,12 @@
             <button id="calculate-btn">Calculer la rentabilité</button>
         </div>
 
-        <!-- MISE À JOUR DE LA SECTION RÉSULTATS -->
         <section id="outputs-section">
             <h2>2. Vos Résultats</h2>
-
             <div id="resultat-principal">
                 <p id="seuil-principal-label">Chiffre d'affaires à atteindre :</p>
                 <span id="seuil-principal-valeur">...</span>
             </div>
-
             <div id="resultat-detail">
                 <h3>Cela correspond à la vente d'environ :</h3>
                 <ul id="repartition-ventes">
