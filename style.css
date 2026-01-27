@@ -20,20 +20,8 @@ body {
 }
 
 /* Logos Partenaires */
-.partner-logos {
-    max-width: 800px;
-    margin: 0 auto 20px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-}
-
-.partner-logos img {
-    max-height: 50px;
-    max-width: 45%;
-    object-fit: contain;
-}
+.partner-logos { max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+.partner-logos img { max-height: 50px; max-width: 45%; object-fit: contain; }
 
 /* Structure et Conteneurs */
 header, footer { text-align: center; margin-bottom: 30px; }
@@ -54,45 +42,13 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
     margin-bottom: 10px;
 }
 
-/* LA LOGIQUE D'AFFICHAGE CONDITIONNEL */
-#produits-container.mono-produit .produit-item .mix-ventes {
-    display: none;
-}
+#produits-container.mono-produit .produit-item .mix-ventes { display: none; }
+#produits-container.mono-produit .produit-item { grid-template-columns: 2fr 1fr 1fr 40px; }
 
-#produits-container.mono-produit .produit-item {
-    /* La grille est ajustée pour que l'espace de la colonne masquée soit redistribué */
-    grid-template-columns: 2fr 1fr 1fr 40px;
-}
-
-#add-product-btn {
-    background: none;
-    border: 1px solid var(--bleu-nuit);
-    color: var(--bleu-nuit);
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-}
+#add-product-btn { background: none; border: 1px solid var(--bleu-nuit); color: var(--bleu-nuit); padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: all 0.3s; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: bold; }
 #add-product-btn:hover { background-color: var(--bleu-nuit); color: #fff; }
 
-.delete-btn {
-    background-color: var(--gris-clair);
-    color: var(--rouge-suppression);
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-self: end;
-}
+.delete-btn { background-color: var(--gris-clair); color: var(--rouge-suppression); border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center; justify-self: end; }
 .delete-btn:hover { background-color: var(--rouge-suppression); color: #fff; }
 
 .action-group { text-align: center; margin-bottom: 30px; }
@@ -105,3 +61,14 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
 #seuil-principal-valeur { display: block; font-size: 2.5em; font-weight: bold; color: var(--orange-vif); }
 #repartition-ventes { list-style: none; }
 #repartition-ventes li { background-color: var(--gris-clair); padding: 10px; border-radius: 4px; margin-bottom: 5px; }
+
+/* --- NOUVEAU : Règle pour la Responsivité Mobile --- */
+@media (max-width: 650px) {
+    .produit-item, #produits-container.mono-produit .produit-item {
+        grid-template-columns: 1fr; /* Une seule colonne pour tout empiler */
+        gap: 8px;
+    }
+    .delete-btn {
+        justify-self: start; /* Aligner le bouton supprimer à gauche */
+    }
+}
