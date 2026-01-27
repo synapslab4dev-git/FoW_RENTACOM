@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const repartitionVentesUl = document.getElementById('repartition-ventes');
     const calculateBtn = document.getElementById('calculate-btn');
     const addProductBtn = document.getElementById('add-product-btn');
+    const outputsSection = document.getElementById('outputs-section');
 
-    // --- NOUVELLE FONCTION CLÉ : MISE À JOUR DE L'INTERFACE ---
+    // --- MISE À JOUR DE L'INTERFACE ---
     function updateUIMode() {
         const produitItems = document.querySelectorAll('.produit-item');
         if (produitItems.length > 1) {
@@ -31,9 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         produits.forEach(p => {
             const margeUnitaire = p.prixVente - p.coutRevient;
-            margeTotalePonderee += margeUnitaire * p.mixVentes;
-            caTotalPondere += p.prixVente * p.mixVentes;
-            totalMix += p.mixVentes;
+            if(p.mixVentes > 0) {
+                margeTotalePonderee += margeUnitaire * p.mixVentes;
+                caTotalPondere += p.prixVente * p.mixVentes;
+                totalMix += p.mixVentes;
+            }
         });
 
         if (totalMix === 0) return null;
@@ -42,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (margeMoyennePonderee <= 0) return { seuilCA: Infinity, repartition: [] };
         
         const seuilTotalVentes = coutCampagne / margeMoyennePonderee;
-        
         const caMoyenParVente = caTotalPondere / totalMix;
         const seuilChiffreAffaires = seuilTotalVentes * caMoyenParVente;
 
@@ -68,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const nom = item.querySelector('.nom-produit').value || "Produit non nommé";
             const prixVente = parseFloat(item.querySelector('.prix-vente').value) || 0;
             const coutRevient = parseFloat(item.querySelector('.cout-revient').value) || 0;
-            // Si on est en mode mono-produit, le mix est toujours 10. Sinon, on lit la valeur.
             const mixVentes = isMultiProductMode ? (parseFloat(item.querySelector('.mix-ventes').value) || 0) : 10;
             
             if (prixVente > 0) { produits.push({ nom, prixVente, coutRevient, mixVentes }); }
@@ -77,6 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = { coutCampagne, produits };
         const resultat = calculerRentabilite(data);
 
+        outputsSection.style.display = "block"; // Afficher la section résultat
+
         if (resultat) {
             if (resultat.seuilCA === Infinity) {
                 seuilPrincipalValeurSpan.textContent = "∞";
@@ -84,12 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 seuilPrincipalValeurSpan.textContent = `${resultat.seuilCA.toLocaleString('fr-FR')} FCFA`;
                 repartitionVentesUl.innerHTML = resultat.repartition
+                    .filter(p => p.quantite > 0)
                     .map(p => `<li><strong>${p.quantite}</strong> x ${p.nom}</li>`)
                     .join('');
             }
         } else {
             seuilPrincipalValeurSpan.textContent = "0 FCFA";
-            repartitionVentesUl.innerHTML = "";
+            repartitionVentesUl.innerHTML = "<li>Veuillez remplir tous les champs requis.</li>";
         }
     }
 
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="delete-btn">X</button>
         `;
         produitsContainer.appendChild(newProductLine);
-        updateUIMode(); // Met à jour l'interface après l'ajout
+        updateUIMode();
     }
 
     function supprimerLigneProduit(event) {
@@ -113,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const produitItems = document.querySelectorAll('.produit-item');
             if (produitItems.length > 1) {
                 event.target.parentElement.remove();
-                updateUIMode(); // Met à jour l'interface après la suppression
+                updateUIMode();
             }
         }
     }
@@ -123,6 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
     addProductBtn.addEventListener('click', ajouterLigneProduit);
     produitsContainer.addEventListener('click', supprimerLigneProduit);
 
-    // Lancement initial pour régler l'état de départ
+    // Lancement initial
     updateUIMode();
 });
