@@ -19,7 +19,23 @@ body {
     padding: 20px;
 }
 
-/* ... (Le reste du CSS de base reste le même) ... */
+/* NOUVEAUX STYLES POUR LES LOGOS PARTENAIRES */
+.partner-logos {
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.partner-logos img {
+    max-height: 50px;
+    max-width: 45%;
+    object-fit: contain;
+}
+
+/* Structure et Conteneurs */
 header, footer { text-align: center; margin-bottom: 30px; }
 header h1 { color: var(--bleu-nuit); margin-bottom: 5px; }
 footer { margin-top: 40px; font-size: 0.9em; }
@@ -29,11 +45,9 @@ h2 { color: var(--bleu-nuit); border-bottom: 2px solid var(--orange-vif); paddin
 label { display: block; margin-bottom: 5px; font-weight: bold; }
 input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Montserrat', sans-serif; }
 
-/* NOUVEAUX STYLES & MISES À JOUR */
-
+/* Styles des formulaires (Inputs) */
 .produit-item {
     display: grid;
-    /* On ajoute une colonne pour le bouton supprimer */
     grid-template-columns: 2fr 1fr 1fr 1fr 40px;
     gap: 10px;
     align-items: center;
@@ -58,14 +72,14 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
     border: none;
     width: 30px;
     height: 30px;
-    border-radius: 50%; /* Le rend circulaire */
+    border-radius: 50%;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
-    justify-self: end; /* Aligne le bouton à droite dans sa colonne */
+    justify-self: end;
 }
 .delete-btn:hover { background-color: var(--rouge-suppression); color: #fff; }
 
@@ -73,8 +87,9 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
 #calculate-btn { background-color: var(--orange-vif); color: #fff; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
 #calculate-btn:hover { background-color: #e69500; }
 
+/* Styles des résultats (Outputs) */
 #resultat-principal { background-color: var(--bleu-nuit); color: #fff; text-align: center; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-#seuil-principal-valeur { display: block; font-size: 2.5em; font-weight: bold; color: var(--orange-vif); }
 #seuil-principal-label { font-size: 1.2em; }
+#seuil-principal-valeur { display: block; font-size: 2.5em; font-weight: bold; color: var(--orange-vif); }
 #repartition-ventes { list-style: none; }
 #repartition-ventes li { background-color: var(--gris-clair); padding: 10px; border-radius: 4px; margin-bottom: 5px; }
