@@ -19,7 +19,7 @@ body {
     padding: 20px;
 }
 
-/* NOUVEAUX STYLES POUR LES LOGOS PARTENAIRES */
+/* Logos Partenaires */
 .partner-logos {
     max-width: 800px;
     margin: 0 auto 20px auto;
@@ -43,7 +43,7 @@ main { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 30px; 
 section { margin-bottom: 30px; }
 h2 { color: var(--bleu-nuit); border-bottom: 2px solid var(--orange-vif); padding-bottom: 10px; margin-bottom: 20px; }
 label { display: block; margin-bottom: 5px; font-weight: bold; }
-input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Montserrat', sans-serif; }
+input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 1em; }
 
 /* Styles des formulaires (Inputs) */
 .produit-item {
@@ -52,6 +52,16 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
     gap: 10px;
     align-items: center;
     margin-bottom: 10px;
+}
+
+/* LA LOGIQUE D'AFFICHAGE CONDITIONNEL */
+#produits-container.mono-produit .produit-item .mix-ventes {
+    display: none;
+}
+
+#produits-container.mono-produit .produit-item {
+    /* La grille est ajustée pour que l'espace de la colonne masquée soit redistribué */
+    grid-template-columns: 2fr 1fr 1fr 40px;
 }
 
 #add-product-btn {
@@ -63,6 +73,8 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
     cursor: pointer;
     transition: all 0.3s;
     margin-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 #add-product-btn:hover { background-color: var(--bleu-nuit); color: #fff; }
 
@@ -84,7 +96,7 @@ input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1
 .delete-btn:hover { background-color: var(--rouge-suppression); color: #fff; }
 
 .action-group { text-align: center; margin-bottom: 30px; }
-#calculate-btn { background-color: var(--orange-vif); color: #fff; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+#calculate-btn { background-color: var(--orange-vif); color: #fff; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; font-family: 'Montserrat', sans-serif; }
 #calculate-btn:hover { background-color: #e69500; }
 
 /* Styles des résultats (Outputs) */
