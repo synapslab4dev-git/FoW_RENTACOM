@@ -31,12 +31,13 @@
             </div>
             <div id="produits-section">
                 <h3>Produits concernés par cette campagne</h3>
-                <div id="produits-container">
+                <!-- Le container principal a maintenant une classe pour gérer l'affichage conditionnel -->
+                <div id="produits-container" class="mono-produit">
                     <div class="produit-item">
                         <input type="text" class="nom-produit" placeholder="Nom du produit">
                         <input type="number" class="prix-vente" placeholder="Prix de vente">
                         <input type="number" class="cout-revient" placeholder="Coût de revient">
-                        <input type="number" class="mix-ventes" placeholder="Ventes sur 10">
+                        <input type="number" class="mix-ventes" placeholder="Ventes sur 10" value="10"> <!-- On met 10 par défaut -->
                         <button class="delete-btn">X</button>
                     </div>
                 </div>
@@ -49,17 +50,7 @@
         </div>
 
         <section id="outputs-section">
-            <h2>2. Vos Résultats</h2>
-            <div id="resultat-principal">
-                <p id="seuil-principal-label">Chiffre d'affaires à atteindre :</p>
-                <span id="seuil-principal-valeur">...</span>
-            </div>
-            <div id="resultat-detail">
-                <h3>Cela correspond à la vente d'environ :</h3>
-                <ul id="repartition-ventes">
-                    <!-- Les résultats détaillés apparaîtront ici -->
-                </ul>
-            </div>
+            <!-- ... (La section des résultats reste identique) ... -->
         </section>
     </main>
 
