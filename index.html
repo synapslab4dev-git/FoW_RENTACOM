@@ -3,69 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rentacom - Simulateur de Rentabilité</title>
+    <title>Rentacom - Simulateur de Rentabilité par Synaps LAB</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
 
-    <div class="partner-logos">
-        <img src="assets/logo-mastercard.png" alt="Mastercard Foundation Logo">
-        <img src="assets/logo-fow.png" alt="Future of Work in Africa Logo">
+    <!-- ======================= ÉCRAN 1 : ACCUEIL (Visible au début) ======================= -->
+    <div id="welcome-screen">
+        <div class="welcome-container">
+            <h1 class="welcome-title">
+                Rentacom
+                <span class="by-synaps">by Synaps LAB</span>
+            </h1>
+
+            <p class="welcome-subtitle">
+                Le simulateur qui vous aide à définir le chiffre d'affaires à atteindre pour rentabiliser votre communication.
+            </p>
+            
+            <div class="welcome-explanation">
+                <p><strong>Le point clé : le "Mix Produit"</strong></p>
+                <p>
+                    Si votre campagne promeut plusieurs produits, vous devez savoir au préalable comment vos ventes se répartissent. Sur 10 ventes totales, combien espérez-vous vendre de chaque produit ? Cette estimation est cruciale pour un calcul réaliste.
+                </p>
+            </div>
+
+            <div class="welcome-actions">
+                <div class="action-block">
+                    <p>Besoin de mieux comprendre ?</p>
+                    <button id="show-example-btn" class="btn-secondary">Voir un exemple concret</button>
+                </div>
+                <div class="action-block">
+                    <p>Prêt à commencer ?</p>
+                    <button id="start-sim-btn" class="btn-primary">Commencer la simulation</button>
+                </div>
+            </div>
+
+            <div id="example-container" style="display: none;">
+                <h3>Exemple Concret</h3>
+                <p>
+                    Imaginons que vous investissez <strong>50 000 FCFA</strong> en publicité pour vos jus.
+                    <ul>
+                        <li>Jus de Bissap (Marge : 300 FCFA)</li>
+                        <li>Jus de Gingembre (Marge : 350 FCFA)</li>
+                    </ul>
+                    Vous estimez que sur 10 ventes, vous vendez <strong>7 Bissap</strong> et <strong>3 Gingembre</strong>.
+                </p>
+                <p>
+                    L'outil calculera une marge moyenne réaliste (pondérée) et vous dira exactement combien de bouteilles de chaque sorte vous devez vendre pour être rentable. C'est plus précis qu'une simple moyenne !
+                </p>
+            </div>
+        </div>
     </div>
 
-    <header>
-        <h1>Rentacom</h1>
-        <p>Calculez le seuil de rentabilité de votre communication.</p>
-    </header>
-
-    <main>
-        <section id="inputs-section">
-            <h2>1. Vos Données</h2>
-            <div class="input-group">
-                <label for="cout-campagne">Coût total de la campagne (FCFA)</label>
-                <input type="number" id="cout-campagne" placeholder="Ex: 50000">
-            </div>
-            <div id="produits-section">
-                <h3>Produits concernés par cette campagne</h3>
-                <div id="produits-container" class="mono-produit">
-                    <div class="produit-item">
-                        <input type="text" class="nom-produit" placeholder="Nom du produit">
-                        <input type="number" class="prix-vente" placeholder="Prix de vente">
-                        <input type="number" class="cout-revient" placeholder="Coût de revient">
-                        <input type="number" class="mix-ventes" placeholder="Ventes sur 10" value="10">
-                        <button class="delete-btn">X</button>
-                    </div>
-                </div>
-                <button id="add-product-btn">+ Ajouter un produit</button>
-            </div>
-        </section>
-
-        <div class="action-group">
-            <button id="calculate-btn">Calculer la rentabilité</button>
+    <!-- ======================= ÉCRAN 2 : CALCULATEUR (Masqué au début) ======================= -->
+    <div id="calculator-screen" style="display: none;">
+        <div class="partner-logos">
+            <img src="assets/logo-mastercard.png" alt="Mastercard Foundation Logo">
+            <img src="assets/logo-fow.png" alt="Future of Work in Africa Logo">
         </div>
 
-        <section id="outputs-section" style="display: none;">
-            <h2>2. Vos Résultats</h2>
-            <div id="resultat-principal">
-                <p id="seuil-principal-label">Chiffre d'affaires à atteindre :</p>
-                <span id="seuil-principal-valeur">...</span>
-            </div>
-            <div id="resultat-detail">
-                <h3>Cela correspond à la vente d'environ :</h3>
-                <ul id="repartition-ventes">
-                    <!-- Les résultats détaillés apparaîtront ici -->
-                </ul>
-            </div>
-        </section>
-    </main>
+        <header>
+            <h1>Rentacom</h1>
+            <p>Calculez le seuil de rentabilité de votre communication.</p>
+        </header>
 
-    <footer>
-        <p>Un outil conçu par <strong>Synaps LAB</strong></p>
-    </footer>
+        <main>
+            <!-- Le contenu de votre calculateur que nous avons déjà construit -->
+             <section id="inputs-section">
+                <h2>1. Vos Données</h2>
+                <div class="input-group">
+                    <label for="cout-campagne">Coût total de la campagne (FCFA)</label>
+                    <input type="number" id="cout-campagne" placeholder="Ex: 50000">
+                </div>
+                <div id="produits-section">
+                    <h3>Produits concernés par cette campagne</h3>
+                    <div id="produits-container" class="mono-produit">
+                        <div class="produit-item">
+                            <input type="text" class="nom-produit" placeholder="Nom du produit">
+                            <input type="number" class="prix-vente" placeholder="Prix de vente">
+                            <input type="number" class="cout-revient" placeholder="Coût de revient">
+                            <input type="number" class="mix-ventes" placeholder="Ventes sur 10" value="10">
+                            <button class="delete-btn">X</button>
+                        </div>
+                    </div>
+                    <button id="add-product-btn">+ Ajouter un produit</button>
+                </div>
+            </section>
 
+            <div class="action-group">
+                <button id="calculate-btn">Calculer la rentabilité</button>
+            </div>
+
+            <section id="outputs-section" style="display: none;">
+                <h2>2. Vos Résultats</h2>
+                <div id="resultat-principal">
+                    <p id="seuil-principal-label">Chiffre d'affaires à atteindre :</p>
+                    <span id="seuil-principal-valeur">...</span>
+                </div>
+                <div id="resultat-detail">
+                    <h3>Cela correspond à la vente d'environ :</h3>
+                    <ul id="repartition-ventes">
+                    </ul>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Un outil conçu par <strong>Synaps LAB</strong></p>
+        </footer>
+    </div>
 </body>
 </html>
