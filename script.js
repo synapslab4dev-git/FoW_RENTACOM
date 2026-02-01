@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SÉLECTION DES ÉLÉMENTS (ÉCRAN D'ACCUEIL) ---
     const welcomeScreen = document.getElementById('welcome-screen');
     const startSimBtn = document.getElementById('start-sim-btn');
+    const showExampleBtn = document.getElementById('show-example-btn');
+    const exampleContainer = document.getElementById('example-container');
 
     // --- SÉLECTION DES ÉLÉMENTS (ÉCRAN CALCULATEUR) ---
     const calculatorScreen = document.getElementById('calculator-screen');
@@ -17,12 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const advancedOptionsSection = document.getElementById('advanced-options-section');
     const beneficeSouhaiteInput = document.getElementById('benefice-souhaite');
     const coussinSecuriteInput = document.getElementById('coussin-securite');
+    const applyAdvancedBtn = document.getElementById('apply-advanced-btn');
 
     // --- VARIABLES D'ÉTAT POUR LE CALCUL AVANCÉ ---
     let baseSeuilCA = 0;
     let baseRepartition = [];
 
-    // --- NAVIGATION ENTRE ÉCRANS ---
+    // --- NAVIGATION ET UI DE L'ACCUEIL ---
     startSimBtn.addEventListener('click', () => {
         welcomeScreen.style.display = 'none';
         calculatorScreen.style.display = 'block';
@@ -38,16 +41,20 @@ document.addEventListener('DOMContentLoaded', () => {
         coussinSecuriteInput.value = '';
     });
 
-    // --- LOGIQUE DU CALCULATEUR ---
+    showExampleBtn.addEventListener('click', () => {
+        const isHidden = exampleContainer.style.display === 'none';
+        exampleContainer.style.display = isHidden ? 'block' : 'none';
+    });
 
-    // Met à jour l'UI pour mono vs multi-produits
+
+    // --- LOGIQUE D'INTERFACE DU CALCULATEUR ---
+
+    // Gère l'affichage pour un seul ou plusieurs produits
     function updateUIMode() {
         const produitItems = document.querySelectorAll('.produit-item');
         if (produitItems.length > 1) {
             produitsContainer.classList.remove('mono-produit');
-            produitsContainer.classList.add('multi-produits');
         } else {
-            produitsContainer.classList.remove('multi-produits');
             produitsContainer.classList.add('mono-produit');
         }
     }
@@ -77,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
+
+    // --- MOTEURS DE CALCUL ---
+
     // Calcule le seuil de rentabilité initial
     function calculerSeuilInitial() {
         const coutCampagne = parseFloat(coutCampagneInput.value) || 0;
@@ -110,9 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (totalMix === 0) return;
         const margeMoyennePonderee = margeTotalePonderee / totalMix;
+
         if (margeMoyennePonderee <= 0) {
-            baseSeuilCA = Infinity;
-            baseRepartition = [];
             seuilPrincipalValeurSpan.textContent = "∞";
             repartitionVentesUl.innerHTML = "<li>Vos coûts sont supérieurs à vos prix de vente. Rentabilité impossible.</li>";
             outputsSection.style.display = "block";
@@ -129,24 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
             quantite: seuilTotalVentes * (p.mixVentes / totalMix)
         }));
 
-        // Réinitialiser les champs avancés avant d'afficher les résultats
         beneficeSouhaiteInput.value = '';
         coussinSecuriteInput.value = '';
-
         seuilPrincipalValeurSpan.textContent = `${Math.round(baseSeuilCA).toLocaleString('fr-FR')} FCFA`;
         repartitionVentesUl.innerHTML = baseRepartition
             .filter(p => p.quantite > 0)
-            .map(p => `<li><strong>${Math.round(p.quantite)}</strong> x ${p.nom}</li>`)
+            .map(p => `<li><strong>${Math.round(p.quantite)}</strong> ${p.nom}</li>`)
             .join('');
 
         outputsSection.style.display = "block";
         advancedOptionsSection.style.display = "block";
     }
 
-    // Recalcule le CA final avec les options de bénéfice et de coussin
-    function recalculateWithAdvancedOptions() {
-        if (baseSeuilCA === 0 || baseSeuilCA === Infinity) return;
-
+    // Applique les options avancées sur le calcul de base
+    function applyAdvancedOptions() {
+        if (baseSeuilCA <= 0) return;
+        
         const beneficeSouhaite = parseFloat(beneficeSouhaiteInput.value) || 0;
         const coussinSecurite = parseFloat(coussinSecuriteInput.value) || 0;
 
@@ -162,17 +168,16 @@ document.addEventListener('DOMContentLoaded', () => {
         seuilPrincipalValeurSpan.textContent = `${Math.round(caFinal).toLocaleString('fr-FR')} FCFA`;
         repartitionVentesUl.innerHTML = baseRepartition
             .filter(p => p.quantite > 0)
-            .map(p => `<li><strong>${Math.round(p.quantite * ratio)}</strong> x ${p.nom}</li>`)
+            .map(p => `<li><strong>${Math.round(p.quantite * ratio)}</strong> ${p.nom}</li>`)
             .join('');
     }
 
     // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
     calculateBtn.addEventListener('click', calculerSeuilInitial);
-    beneficeSouhaiteInput.addEventListener('keyup', recalculateWithAdvancedOptions);
-    coussinSecuriteInput.addEventListener('keyup', recalculateWithAdvancedOptions);
+    applyAdvancedBtn.addEventListener('click', applyAdvancedOptions);
     addProductBtn.addEventListener('click', ajouterLigneProduit);
     produitsContainer.addEventListener('click', supprimerLigneProduit);
 
-    // Initialisation de l'interface au chargement
+    // Initialisation de l'interface au chargement de la page
     updateUIMode();
 });
