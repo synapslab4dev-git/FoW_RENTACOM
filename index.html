@@ -12,67 +12,44 @@
 </head>
 <body>
 
-    <!-- ======================= ÉCRAN 1 : ACCUEIL (Visible au début) ======================= -->
+    <!-- ======================= ÉCRAN 1 : ACCUEIL ======================= -->
     <div id="welcome-screen">
         <div class="welcome-container">
             <h1 class="welcome-title">
                 Rentacom
                 <span class="by-synaps">by Synaps LAB</span>
             </h1>
-
             <p class="welcome-subtitle">
                 Le simulateur qui vous aide à définir le chiffre d'affaires à atteindre pour rentabiliser votre communication.
             </p>
-            
             <div class="welcome-explanation">
-                <p><strong>Le point clé : le "Mix Produit"</strong></p>
+                <p><strong>Comment ça marche ?</strong></p>
                 <p>
-                    Si votre campagne promeut plusieurs produits, vous devez savoir au préalable comment vos ventes se répartissent. Sur 10 ventes totales, combien espérez-vous vendre de chaque produit ? Cette estimation est cruciale pour un calcul réaliste.
+                    L'outil calcule d'abord le **seuil de rentabilité** : le chiffre d'affaires exact pour récupérer votre investissement (bénéfice = 0). Ensuite, si vous le souhaitez, vous pourrez ajouter un **objectif de bénéfice** ou un **coussin de sécurité** pour affiner votre stratégie.
                 </p>
             </div>
-
             <div class="welcome-actions">
-                <div class="action-block">
-                    <p>Besoin de mieux comprendre ?</p>
-                    <button id="show-example-btn" class="btn-secondary">Voir un exemple concret</button>
-                </div>
                 <div class="action-block">
                     <p>Prêt à commencer ?</p>
                     <button id="start-sim-btn" class="btn-primary">Commencer la simulation</button>
                 </div>
             </div>
-
-            <div id="example-container" style="display: none;">
-                <h3>Exemple Concret</h3>
-                <p>
-                    Imaginons que vous investissez <strong>50 000 FCFA</strong> en publicité pour vos jus.
-                    <ul>
-                        <li>Jus de Bissap (Marge : 300 FCFA)</li>
-                        <li>Jus de Gingembre (Marge : 350 FCFA)</li>
-                    </ul>
-                    Vous estimez que sur 10 ventes, vous vendez <strong>7 Bissap</strong> et <strong>3 Gingembre</strong>.
-                </p>
-                <p>
-                    L'outil calculera une marge moyenne réaliste (pondérée) et vous dira exactement combien de bouteilles de chaque sorte vous devez vendre pour être rentable. C'est plus précis qu'une simple moyenne !
-                </p>
-            </div>
         </div>
     </div>
 
-    <!-- ======================= ÉCRAN 2 : CALCULATEUR (Masqué au début) ======================= -->
+    <!-- ======================= ÉCRAN 2 : CALCULATEUR ======================= -->
     <div id="calculator-screen" style="display: none;">
-        <div class="partner-logos">
-            <img src="assets/logo-mastercard.png" alt="Mastercard Foundation Logo">
-            <img src="assets/logo-fow.png" alt="Future of Work in Africa Logo">
+        <div class="top-bar">
+            <button id="back-to-welcome-btn">&larr; Retour</button>
+            <div class="partner-logos">
+                <img src="assets/logo-mastercard.png" alt="Mastercard Foundation Logo">
+                <img src="assets/logo-fow.png" alt="Future of Work in Africa Logo">
+            </div>
         </div>
-
-        <header>
-            <h1>Rentacom</h1>
-            <p>Calculez le seuil de rentabilité de votre communication.</p>
-        </header>
+        
+        <header><h1>Rentacom</h1></header>
 
         <main>
-            <!-- Le contenu de votre calculateur que nous avons déjà construit -->
              <section id="inputs-section">
                 <h2>1. Vos Données</h2>
                 <div class="input-group">
@@ -95,26 +72,40 @@
             </section>
 
             <div class="action-group">
-                <button id="calculate-btn">Calculer la rentabilité</button>
+                <button id="calculate-btn" class="btn-primary">Calculer le seuil de rentabilité</button>
             </div>
 
             <section id="outputs-section" style="display: none;">
                 <h2>2. Vos Résultats</h2>
                 <div id="resultat-principal">
-                    <p id="seuil-principal-label">Chiffre d'affaires à atteindre :</p>
+                    <p id="seuil-principal-label">
+                        Afin de récupérer votre investissement, vous devez atteindre un chiffre d'affaires de <strong>minimum</strong> :
+                    </p>
                     <span id="seuil-principal-valeur">...</span>
                 </div>
                 <div id="resultat-detail">
                     <h3>Cela correspond à la vente d'environ :</h3>
-                    <ul id="repartition-ventes">
-                    </ul>
+                    <ul id="repartition-ventes"></ul>
+                    <p class="result-clarification">
+                        Ce montant correspond à la récupération de votre investissement uniquement (bénéfice net = 0).
+                    </p>
+                </div>
+                
+                <div id="advanced-options-section" style="display: none;">
+                    <h3>Aller plus loin (Optionnel)</h3>
+                    <div class="input-group">
+                        <label for="benefice-souhaite">Ajouter un objectif de bénéfice net (FCFA)</label>
+                        <input type="number" id="benefice-souhaite" placeholder="Ex: 100000">
+                    </div>
+                    <div class="input-group">
+                        <label for="coussin-securite">Ajouter un coussin de sécurité (%)</label>
+                        <input type="number" id="coussin-securite" placeholder="Ex: 15 (pour 15%)">
+                    </div>
                 </div>
             </section>
         </main>
         
-        <footer>
-            <p>Un outil conçu par <strong>Synaps LAB</strong></p>
-        </footer>
+        <footer><p>Un outil conçu par <strong>Synaps LAB</strong></p></footer>
     </div>
 </body>
 </html>
