@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- VARIABLES D'ÉTAT POUR LE CALCUL AVANCÉ ---
     let baseSeuilCA = 0;
     let baseRepartition = [];
+    let baseMargeMoyennePourcentage = 0;
 
     // --- NAVIGATION ET UI DE L'ACCUEIL ---
     startSimBtn.addEventListener('click', () => {
@@ -34,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     backToWelcomeBtn.addEventListener('click', () => {
         calculatorScreen.style.display = 'none';
         welcomeScreen.style.display = 'block';
-        // Réinitialiser le formulaire en revenant
         outputsSection.style.display = 'none';
         advancedOptionsSection.style.display = 'none';
         beneficeSouhaiteInput.value = '';
@@ -46,10 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         exampleContainer.style.display = isHidden ? 'block' : 'none';
     });
 
-
     // --- LOGIQUE D'INTERFACE DU CALCULATEUR ---
-
-    // Gère l'affichage pour un seul ou plusieurs produits
     function updateUIMode() {
         const produitItems = document.querySelectorAll('.produit-item');
         if (produitItems.length > 1) {
@@ -59,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Ajoute une nouvelle ligne de produit
     function ajouterLigneProduit() {
         const newProductLine = document.createElement('div');
         newProductLine.classList.add('produit-item');
@@ -74,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateUIMode();
     }
 
-    // Supprime une ligne de produit
     function supprimerLigneProduit(event) {
         if (event.target.classList.contains('delete-btn')) {
             const produitItems = document.querySelectorAll('.produit-item');
@@ -86,8 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- MOTEURS DE CALCUL ---
-
-    // Calcule le seuil de rentabilité initial
     function calculerSeuilInitial() {
         const coutCampagne = parseFloat(coutCampagneInput.value) || 0;
         const produitItems = document.querySelectorAll('.produit-item');
@@ -119,7 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (totalMix === 0) return;
         const margeMoyennePonderee = margeTotalePonderee / totalMix;
+        const caMoyenParVente = caTotalPondere / totalMix;
 
+        if (caMoyenParVente > 0) {
+            baseMargeMoyennePourcentage = margeMoyennePonderee / caMoyenParVente;
+        } else {
+            baseMargeMoyennePourcentage = 0;
+        }
+        
         if (margeMoyennePonderee <= 0) {
             seuilPrincipalValeurSpan.textContent = "∞";
             repartitionVentesUl.innerHTML = "<li>Vos coûts sont supérieurs à vos prix de vente. Rentabilité impossible.</li>";
@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const seuilTotalVentes = coutCampagne / margeMoyennePonderee;
-        const caMoyenParVente = caTotalPondere / totalMix;
         
         baseSeuilCA = seuilTotalVentes * caMoyenParVente;
         baseRepartition = produits.map(p => ({
@@ -149,14 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
         advancedOptionsSection.style.display = "block";
     }
 
-    // Applique les options avancées sur le calcul de base
     function applyAdvancedOptions() {
-        if (baseSeuilCA <= 0) return;
+        if (baseSeuilCA <= 0 || baseMargeMoyennePourcentage <= 0) return;
         
         const beneficeSouhaite = parseFloat(beneficeSouhaiteInput.value) || 0;
         const coussinSecurite = parseFloat(coussinSecuriteInput.value) || 0;
 
-        let caAvecBenefice = baseSeuilCA + beneficeSouhaite;
+        const caAdditionnelPourBenefice = beneficeSouhaite / baseMargeMoyennePourcentage;
+        let caAvecBenefice = baseSeuilCA + caAdditionnelPourBenefice;
         let caFinal = caAvecBenefice;
 
         if (coussinSecurite > 0 && coussinSecurite < 100) {
