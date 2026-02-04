@@ -1,16 +1,23 @@
-/* Variables de couleur Synaps LAB */
+/* ================================================================
+   VARIABLES ET BASES (SYNAPS LAB)
+   ================================================================ */
 :root {
     --bleu-nuit: #032139;
     --bleu-ciel: #2E92EA;
     --orange-vif: #FFA500;
     --gris-clair: #f4f4f4;
+    --gris-moyen: #dcdcdc;
     --texte-couleur: #333;
-    --rouge-suppression: #e74c3c;
+    --rouge-alerte: #e74c3c;
     --vert-succes: #27ae60;
+    --blanc: #ffffff;
 }
 
-/* Reset et styles de base */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
 
 body {
     font-family: 'Montserrat', sans-serif;
@@ -20,7 +27,9 @@ body {
     padding: 20px;
 }
 
-/* ======================= ÉCRAN D'ACCUEIL ======================= */
+/* ================================================================
+   ÉCRAN D'ACCUEIL
+   ================================================================ */
 #welcome-screen {
     display: flex;
     flex-direction: column;
@@ -31,7 +40,7 @@ body {
 }
 
 .welcome-container {
-    max-width: 700px;
+    max-width: 750px;
     padding: 20px;
 }
 
@@ -41,13 +50,13 @@ body {
     color: var(--bleu-nuit);
     position: relative;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .by-synaps {
     position: absolute;
     bottom: 5px;
-    right: -20px;
+    right: -25px;
     transform: translateX(100%);
     font-size: 1rem;
     font-weight: 400;
@@ -56,262 +65,362 @@ body {
 }
 
 .welcome-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--texte-couleur);
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    font-weight: 400;
 }
 
 .welcome-explanation {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    background-color: var(--blanc);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 35px;
     text-align: left;
-    border-left: 5px solid var(--orange-vif);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-left: 6px solid var(--orange-vif);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 .welcome-explanation h3 {
     color: var(--bleu-nuit);
     margin-bottom: 15px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
 .welcome-explanation ol {
     padding-left: 20px;
-    margin-bottom: 10px;
 }
 
 .welcome-explanation li {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .welcome-explanation ul {
     padding-left: 20px;
-    margin-top: 5px;
+    margin-top: 8px;
     list-style-type: circle;
 }
 
+/* Boutons */
 .welcome-actions {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
 .action-block p {
-    margin-bottom: 10px;
-    font-weight: bold;
+    margin-bottom: 12px;
+    font-weight: 700;
     color: #555;
     font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Boutons */
 .btn-primary, .btn-secondary {
-    padding: 12px 25px;
-    border-radius: 5px;
+    padding: 14px 28px;
+    border-radius: 6px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    font-size: 1em;
+    font-weight: 700;
+    font-size: 1rem;
     border: none;
     transition: all 0.3s ease;
+    display: inline-block;
 }
 
-.btn-primary { background-color: var(--orange-vif); color: #fff; }
-.btn-primary:hover { background-color: #e69500; }
+.btn-primary { 
+    background-color: var(--orange-vif); 
+    color: var(--blanc);
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+}
+.btn-primary:hover { 
+    background-color: #e69500; 
+    transform: translateY(-2px);
+}
 
-.btn-secondary { background: none; border: 2px solid var(--bleu-nuit); color: var(--bleu-nuit); }
-.btn-secondary:hover { background-color: var(--bleu-nuit); color: #fff; }
+.btn-secondary { 
+    background: none; 
+    border: 2px solid var(--bleu-nuit); 
+    color: var(--bleu-nuit); 
+}
+.btn-secondary:hover { 
+    background-color: var(--bleu-nuit); 
+    color: var(--blanc); 
+}
 
 #example-container {
     background-color: #eef2f5;
-    border-radius: 8px;
-    padding: 20px;
+    border-radius: 10px;
+    padding: 25px;
     text-align: left;
-    border: 1px solid #dcdcdc;
+    border: 1px solid var(--gris-moyen);
+    margin-top: 20px;
 }
 
-/* ======================= ÉCRAN CALCULATEUR ======================= */
-#calculator-screen { max-width: 800px; margin: 0 auto; }
+#example-container h4 { color: var(--bleu-nuit); margin-bottom: 12px; }
+
+/* ================================================================
+   ÉCRAN CALCULATEUR
+   ================================================================ */
+#calculator-screen { 
+    max-width: 850px; 
+    margin: 0 auto; 
+}
 
 .calculator-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-.app-logo-text { color: var(--bleu-nuit); font-weight: 900; }
+.app-logo-text { 
+    color: var(--bleu-nuit); 
+    font-weight: 900; 
+    font-size: 1.8rem;
+}
 
 #back-to-welcome-btn {
     background: none;
     border: none;
     color: var(--bleu-nuit);
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
+    font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
+    padding: 0;
+    margin-right: 15px;
 }
+#back-to-welcome-btn:hover { text-decoration: underline; }
 
-.partner-logos-container { display: flex; gap: 15px; }
-.partner-logo { max-height: 50px; }
+.partner-logos-container { display: flex; gap: 20px; align-items: center; }
+.partner-logo { max-height: 55px; width: auto; }
 
-header, footer { text-align: center; margin-bottom: 30px; }
 main {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: var(--blanc);
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
 .section-title { 
     color: var(--bleu-nuit); 
-    border-bottom: 2px solid var(--orange-vif); 
-    padding-bottom: 10px; 
-    margin-bottom: 20px; 
+    border-bottom: 3px solid var(--orange-vif); 
+    padding-bottom: 12px; 
+    margin-bottom: 25px;
+    font-weight: 900;
 }
 
-label { display: block; margin-bottom: 5px; font-weight: bold; }
-input {
+/* MODERNISATION DES INPUTS (ANTI-RUSTRE) */
+label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: 700; 
+    font-size: 0.95rem;
+    color: #444;
+}
+
+input[type="number"], 
+input[type="text"], 
+input[type="date"], 
+select {
     width: 100%;
-    padding: 10px;
+    padding: 12px 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #fff;
+    color: var(--texte-couleur);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--bleu-ciel);
+    box-shadow: 0 0 0 3px rgba(46, 146, 234, 0.15);
 }
 
 /* Grille produits */
 .produit-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 40px;
-    gap: 10px;
+    grid-template-columns: 2.5fr 1fr 1fr 1fr 45px;
+    gap: 12px;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 #produits-container.mono-produit .produit-item .mix-ventes { display: none; }
-#produits-container.mono-produit .produit-item { grid-template-columns: 2fr 1fr 1fr 40px; }
+#produits-container.mono-produit .produit-item { grid-template-columns: 2.5fr 1fr 1fr 45px; }
+
+#add-product-btn {
+    background: none;
+    border: 2px dashed var(--bleu-nuit);
+    color: var(--bleu-nuit);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+#add-product-btn:hover { background-color: rgba(3, 33, 57, 0.05); }
 
 .delete-btn {
-    background-color: var(--gris-clair);
-    color: var(--rouge-suppression);
+    background-color: #fee;
+    color: var(--rouge-alerte);
     border: none;
-    width: 30px; height: 30px;
+    width: 35px; height: 35px;
     border-radius: 50%;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.delete-btn:hover { background-color: var(--rouge-alerte); color: #fff; }
 
-.action-group { text-align: center; margin-bottom: 30px; }
-
-/* ======================= BLOCS DE RÉSULTATS ======================= */
-
-.result-box-base, .result-box-strategic {
-    padding: 25px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+/* ================================================================
+   BLOCS DE RÉSULTATS (AMÉLIORÉS)
+   ================================================================ */
+.result-box-base {
+    background-color: var(--bleu-nuit);
+    color: var(--blanc);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 35px;
     text-align: center;
 }
 
-/* Point Mort (Bleu Nuit) */
-.result-box-base {
-    background-color: var(--bleu-nuit);
-    color: #fff;
-}
-
-/* Objectif Stratégique (Bordure Orange) */
 .result-box-strategic {
-    background-color: #fffef0;
-    border: 3px solid var(--orange-vif);
+    background-color: #fffef2;
+    border: 4px solid var(--orange-vif);
     color: var(--bleu-nuit);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 35px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
 }
 
-.result-label { font-size: 1.1em; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.result-label { font-size: 1.1rem; font-weight: 400; }
 .main-number {
     display: block;
-    font-size: 2.8em;
+    font-size: 3rem;
     font-weight: 900;
-    margin: 10px 0;
+    margin: 15px 0;
     color: var(--orange-vif);
 }
 
-.result-info { font-size: 1rem; margin-bottom: 15px; }
+.result-info { font-size: 1rem; margin-bottom: 20px; line-height: 1.5; }
 
 /* TEXTE ROUGE PÉDAGOGIQUE (INLINE) */
 .warning-text-inline {
-    color: var(--rouge-suppression);
-    font-weight: bold;
+    color: var(--rouge-alerte);
+    font-weight: 700;
 }
 
-.quantities-list { text-align: left; margin-top: 15px; }
-.quantities-list h4 { margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase; opacity: 0.8; }
-.quantities-list ul { list-style: none; }
+.quantities-list { 
+    text-align: left; 
+    margin-top: 20px; 
+    border-top: 1px solid rgba(255,255,255,0.2); 
+    padding-top: 20px;
+}
+.result-box-strategic .quantities-list { border-top-color: rgba(0,0,0,0.1); }
+
+.quantities-list h4 { 
+    margin-bottom: 12px; 
+    font-size: 0.85rem; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.quantities-list ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
 .quantities-list li {
-    background: rgba(255,255,255,0.1);
-    padding: 8px 12px;
-    border-radius: 4px;
-    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
 }
-.result-box-strategic li { background: rgba(0,0,0,0.05); }
+.result-box-strategic li { background: rgba(0, 0, 0, 0.06); }
 
-/* Section Stratégie */
+/* Strategy Box */
 .strategy-box {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 30px;
-}
-
-/* ======================= PRÉDICTION DE DATE ======================= */
-.prediction-box {
-    margin-top: 30px;
+    background-color: #f4f7f9;
     padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e0e6ed;
+    margin-bottom: 35px;
+}
+.strategy-box h3 { color: var(--bleu-nuit); margin-bottom: 20px; }
+
+/* ================================================================
+   PRÉDICTION DE DATE
+   ================================================================ */
+.prediction-box {
+    margin-top: 40px;
+    padding: 30px;
     background-color: #f0f7ff;
-    border-radius: 8px;
-    border: 1px dashed var(--bleu-ciel);
+    border-radius: 12px;
+    border: 2px dashed var(--bleu-ciel);
 }
 
 .prediction-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .calendar-svg { color: var(--bleu-ciel); flex-shrink: 0; }
 
 .prediction-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
+    grid-template-columns: 2fr 1.2fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
     align-items: center;
+    background: rgba(255,255,255,0.6);
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .prediction-result-display {
-    margin-top: 20px;
-    padding: 20px;
+    margin-top: 25px;
+    padding: 22px;
     background-color: var(--vert-succes);
-    color: #fff;
-    border-radius: 8px;
+    color: var(--blanc);
+    border-radius: 10px;
     text-align: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+    font-weight: 700;
+    font-size: 1.25rem;
+    box-shadow: 0 6px 15px rgba(39, 174, 96, 0.3);
 }
 
-/* ======================= OPTIMISATION PDF ======================= */
+/* ================================================================
+   OPTIMISATION PDF & PRINT
+   ================================================================ */
 @media print {
     .no-print { display: none !important; }
     body { padding: 0; background: #fff; }
-    main { box-shadow: none; }
-    .calculator-header { border-bottom: 2px solid var(--bleu-nuit); padding-bottom: 10px; }
+    main { box-shadow: none; padding: 0; }
+    .calculator-header { border-bottom: 2px solid var(--bleu-nuit); padding-bottom: 15px; margin-bottom: 30px; }
 }
 
-/* Responsive */
+/* Responsive Mobile */
 @media (max-width: 650px) {
-    .produit-item, .prediction-row { grid-template-columns: 1fr; gap: 5px; }
-    .welcome-title { font-size: 2.5rem; }
+    .welcome-title { font-size: 2.2rem; }
+    .produit-item, .prediction-row { grid-template-columns: 1fr; gap: 8px; }
+    .calculator-header { flex-direction: column-reverse; gap: 20px; text-align: center; }
 }
