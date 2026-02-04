@@ -132,8 +132,14 @@ body {
     border: 1px solid #dcdcdc;
 }
 
-#example-container h4 { color: var(--bleu-nuit); margin-bottom: 10px; }
-#example-container p { margin-bottom: 10px; font-size: 0.95rem; }
+#example-container h4 {
+    color: var(--bleu-nuit);
+    margin-bottom: 10px;
+}
+#example-container p {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
 
 /* ======================= ÉCRAN CALCULATEUR ======================= */
 #calculator-screen { max-width: 800px; margin: 0 auto; }
@@ -195,6 +201,7 @@ input[type="number"], input[type="text"], input[type="date"], select {
     margin-bottom: 10px;
 }
 
+/* Logique d'affichage mono/multi produits */
 #produits-container.mono-produit .produit-item .mix-ventes { display: none; }
 #produits-container.mono-produit .produit-item { grid-template-columns: 2fr 1fr 1fr 40px; }
 
@@ -222,11 +229,13 @@ input[type="number"], input[type="text"], input[type="date"], select {
     border-radius: 50%;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
     justify-self: end;
 }
+.delete-btn:hover { background-color: var(--rouge-suppression); color: #fff; }
 
 .action-group { text-align: center; margin-bottom: 30px; }
 
@@ -240,6 +249,7 @@ input[type="number"], input[type="text"], input[type="date"], select {
     margin-bottom: 20px;
 }
 
+#seuil-principal-label { font-size: 1.1em; line-height: 1.5; }
 #seuil-principal-valeur {
     display: block;
     font-size: 2.5em;
@@ -257,7 +267,16 @@ input[type="number"], input[type="text"], input[type="date"], select {
     font-size: 1rem;
 }
 
-/* ======================= NOUVEAUX STYLES AJOUTÉS ======================= */
+.result-clarification {
+    margin-top: 15px;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    display: block;
+    font-size: 0.9rem;
+}
+
+/* ======================= AJOUTS POUR LES NOUVELLES FONCTIONS ======================= */
 
 /* Texte d'alerte rouge pédagogique */
 .warning-text {
@@ -270,6 +289,7 @@ input[type="number"], input[type="text"], input[type="date"], select {
     margin-top: 20px;
     font-size: 0.95rem;
     text-align: left;
+    line-height: 1.4;
 }
 
 /* Boîte de prédiction de date */
@@ -279,6 +299,19 @@ input[type="number"], input[type="text"], input[type="date"], select {
     background-color: #f0f7ff;
     border-radius: 8px;
     border: 1px dashed var(--bleu-ciel);
+}
+
+.prediction-box h3 {
+    font-size: 1.1em;
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+.small-info {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
 }
 
 .prediction-row {
@@ -301,15 +334,38 @@ input[type="number"], input[type="text"], input[type="date"], select {
     border-bottom: 4px solid var(--orange-vif);
 }
 
-.small-info { font-size: 0.85rem; color: #666; margin-bottom: 15px; font-style: italic; }
-
-/* Gestion PDF (Cache les éléments inutiles lors de l'impression) */
+/* Optimisation PDF : On cache les boutons lors de la capture */
 @media print {
     .no-print { display: none !important; }
 }
 
 /* Responsive */
 @media (max-width: 650px) {
-    .produit-item, .prediction-row { grid-template-columns: 1fr; }
+    .produit-item, .prediction-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+    }
+    .delete-btn { justify-self: start; margin-top: 5px; }
+    
     .welcome-title { font-size: 2.5rem; }
+    .by-synaps {
+        position: static;
+        transform: none;
+        display: block;
+        font-size: 0.9rem;
+        margin-top: -5px;
+        margin-bottom: 10px;
+    }
+    
+    .top-bar {
+        flex-direction: column-reverse;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    #resultat-principal { padding: 15px; }
+    #seuil-principal-valeur { font-size: 2rem; }
 }
