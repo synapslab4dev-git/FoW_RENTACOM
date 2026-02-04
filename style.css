@@ -6,6 +6,7 @@
     --gris-clair: #f4f4f4;
     --texte-couleur: #333;
     --rouge-suppression: #e74c3c;
+    --vert-succes: #27ae60;
 }
 
 /* Reset et styles de base */
@@ -132,24 +133,17 @@ body {
     border: 1px solid #dcdcdc;
 }
 
-#example-container h4 {
-    color: var(--bleu-nuit);
-    margin-bottom: 10px;
-}
-#example-container p {
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-}
-
 /* ======================= ÉCRAN CALCULATEUR ======================= */
 #calculator-screen { max-width: 800px; margin: 0 auto; }
 
-.top-bar {
+.calculator-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
+
+.app-logo-text { color: var(--bleu-nuit); font-weight: 900; }
 
 #back-to-welcome-btn {
     background: none;
@@ -157,19 +151,13 @@ body {
     color: var(--bleu-nuit);
     font-weight: bold;
     cursor: pointer;
-    font-size: 1em;
-    padding: 0;
     font-family: 'Montserrat', sans-serif;
 }
-#back-to-welcome-btn:hover { text-decoration: underline; }
 
-.partner-logos { display: flex; gap: 15px; }
-.partner-logos img { max-height: 50px; }
+.partner-logos-container { display: flex; gap: 15px; }
+.partner-logo { max-height: 50px; }
 
 header, footer { text-align: center; margin-bottom: 30px; }
-header h1 { color: var(--bleu-nuit); margin-bottom: 0; }
-footer { margin-top: 40px; font-size: 0.9em; color: #777; }
-
 main {
     background-color: #fff;
     padding: 30px;
@@ -177,19 +165,20 @@ main {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-section { margin-bottom: 30px; }
-
-h2, h3 { color: var(--bleu-nuit); margin-bottom: 20px; }
-h2 { border-bottom: 2px solid var(--orange-vif); padding-bottom: 10px; }
+.section-title { 
+    color: var(--bleu-nuit); 
+    border-bottom: 2px solid var(--orange-vif); 
+    padding-bottom: 10px; 
+    margin-bottom: 20px; 
+}
 
 label { display: block; margin-bottom: 5px; font-weight: bold; }
-input[type="number"], input[type="text"], input[type="date"], select {
+input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
 }
 
 /* Grille produits */
@@ -201,98 +190,81 @@ input[type="number"], input[type="text"], input[type="date"], select {
     margin-bottom: 10px;
 }
 
-/* Logique d'affichage mono/multi produits */
 #produits-container.mono-produit .produit-item .mix-ventes { display: none; }
 #produits-container.mono-produit .produit-item { grid-template-columns: 2fr 1fr 1fr 40px; }
-
-#add-product-btn {
-    background: none;
-    border: 1px solid var(--bleu-nuit);
-    color: var(--bleu-nuit);
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    font-size: 0.9em;
-}
-#add-product-btn:hover { background-color: var(--bleu-nuit); color: #fff; }
 
 .delete-btn {
     background-color: var(--gris-clair);
     color: var(--rouge-suppression);
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border-radius: 50%;
-    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-self: end;
+    font-weight: bold;
 }
-.delete-btn:hover { background-color: var(--rouge-suppression); color: #fff; }
 
 .action-group { text-align: center; margin-bottom: 30px; }
 
-/* Résultats */
-#resultat-principal {
+/* ======================= BLOCS DE RÉSULTATS ======================= */
+
+.result-box-base, .result-box-strategic {
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Point Mort (Bleu Nuit) */
+.result-box-base {
     background-color: var(--bleu-nuit);
     color: #fff;
-    text-align: center;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
 }
 
-#seuil-principal-label { font-size: 1.1em; line-height: 1.5; }
-#seuil-principal-valeur {
+/* Objectif Stratégique (Bordure Orange) */
+.result-box-strategic {
+    background-color: #fffef0;
+    border: 3px solid var(--orange-vif);
+    color: var(--bleu-nuit);
+}
+
+.result-label { font-size: 1.1em; }
+.main-number {
     display: block;
-    font-size: 2.5em;
-    font-weight: bold;
+    font-size: 2.8em;
+    font-weight: 900;
+    margin: 10px 0;
     color: var(--orange-vif);
-    margin-top: 10px;
 }
 
-#repartition-ventes { list-style: none; padding-left: 0; }
-#repartition-ventes li {
-    background-color: var(--gris-clair);
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    font-size: 1rem;
-}
+.result-info { font-size: 1rem; margin-bottom: 15px; }
 
-.result-clarification {
-    margin-top: 15px;
-    font-style: italic;
-    color: #555;
-    text-align: center;
-    display: block;
-    font-size: 0.9rem;
-}
-
-/* ======================= AJOUTS POUR LES NOUVELLES FONCTIONS ======================= */
-
-/* Texte d'alerte rouge pédagogique */
-.warning-text {
+/* TEXTE ROUGE PÉDAGOGIQUE (INLINE) */
+.warning-text-inline {
     color: var(--rouge-suppression);
     font-weight: bold;
-    background-color: #fff1f0;
-    padding: 15px;
-    border-radius: 5px;
-    border: 1px solid var(--rouge-suppression);
-    margin-top: 20px;
-    font-size: 0.95rem;
-    text-align: left;
-    line-height: 1.4;
 }
 
-/* Boîte de prédiction de date */
+.quantities-list { text-align: left; margin-top: 15px; }
+.quantities-list h4 { margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase; opacity: 0.8; }
+.quantities-list ul { list-style: none; }
+.quantities-list li {
+    background: rgba(255,255,255,0.1);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+.result-box-strategic li { background: rgba(0,0,0,0.05); }
+
+/* Section Stratégie */
+.strategy-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+/* ======================= PRÉDICTION DE DATE ======================= */
 .prediction-box {
     margin-top: 30px;
     padding: 25px;
@@ -301,18 +273,14 @@ input[type="number"], input[type="text"], input[type="date"], select {
     border: 1px dashed var(--bleu-ciel);
 }
 
-.prediction-box h3 {
-    font-size: 1.1em;
-    border-bottom: none;
-    margin-bottom: 10px;
+.prediction-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-.small-info {
-    font-size: 0.85rem;
-    color: #666;
-    margin-bottom: 15px;
-    font-style: italic;
-}
+.calendar-svg { color: var(--bleu-ciel); flex-shrink: 0; }
 
 .prediction-row {
     display: grid;
@@ -322,50 +290,28 @@ input[type="number"], input[type="text"], input[type="date"], select {
     align-items: center;
 }
 
-.prediction-result-text {
+.prediction-result-display {
     margin-top: 20px;
     padding: 20px;
-    background-color: var(--bleu-nuit);
+    background-color: var(--vert-succes);
     color: #fff;
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
-    font-size: 1.1rem;
-    border-bottom: 4px solid var(--orange-vif);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
 }
 
-/* Optimisation PDF : On cache les boutons lors de la capture */
+/* ======================= OPTIMISATION PDF ======================= */
 @media print {
     .no-print { display: none !important; }
+    body { padding: 0; background: #fff; }
+    main { box-shadow: none; }
+    .calculator-header { border-bottom: 2px solid var(--bleu-nuit); padding-bottom: 10px; }
 }
 
 /* Responsive */
 @media (max-width: 650px) {
-    .produit-item, .prediction-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 15px;
-    }
-    .delete-btn { justify-self: start; margin-top: 5px; }
-    
+    .produit-item, .prediction-row { grid-template-columns: 1fr; gap: 5px; }
     .welcome-title { font-size: 2.5rem; }
-    .by-synaps {
-        position: static;
-        transform: none;
-        display: block;
-        font-size: 0.9rem;
-        margin-top: -5px;
-        margin-bottom: 10px;
-    }
-    
-    .top-bar {
-        flex-direction: column-reverse;
-        gap: 15px;
-        align-items: center;
-    }
-    
-    #resultat-principal { padding: 15px; }
-    #seuil-principal-valeur { font-size: 2rem; }
 }
