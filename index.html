@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rentacom - Simulateur de Rentabilité par Synaps LAB</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="script.js" defer></script>
 </head>
@@ -15,31 +17,38 @@
 
     <div id="welcome-screen">
         <div class="welcome-container">
+            
             <h1 class="welcome-title">
                 Rentacom
                 <span class="by-synaps">by Synaps LAB</span>
             </h1>
+
             <p class="welcome-subtitle">
                 Le simulateur qui vous aide à définir le chiffre d'affaires à atteindre pour rentabiliser votre communication.
             </p>
+
             <div class="welcome-explanation">
                 <h3>Comment utiliser cet outil ?</h3>
                 <ol>
                     <li>
-                        <strong>Le Seuil de Rentabilité (Point Mort) :</strong> Le premier calcul détermine le chiffre d'affaires minimum pour couvrir votre investissement. À ce stade, votre bénéfice net est de 0.
+                        <strong>Le Seuil de Rentabilité (Point Mort) :</strong> 
+                        Le premier calcul détermine le chiffre d'affaires minimum pour couvrir votre investissement. À ce stade, votre bénéfice net est de 0.
                     </li>
                     <li>
-                        <strong>Aller plus loin (Stratégie) :</strong> Une fois le point mort connu, vous pouvez ajouter deux variables clés :
+                        <strong>Aller plus loin (Stratégie) :</strong> 
+                        Une fois le point mort connu, vous pouvez ajouter deux variables clés :
                         <ul>
                             <li><strong>Un objectif de bénéfice</strong> pour viser la croissance.</li>
                             <li><strong>Un coussin de sécurité</strong> (en %) pour absorber les imprévus.</li>
                         </ul>
                     </li>
                     <li>
-                        <strong>Le point clé - Le "Mix Produit" :</strong> Si votre campagne promeut plusieurs produits, vous devez estimer comment vos ventes se répartissent (ex: sur 10 ventes, 7 sont du produit A <strong>et</strong> 3 du produit B). Cette estimation est cruciale pour un calcul réaliste.
+                        <strong>Le point clé - Le "Mix Produit" :</strong> 
+                        Si votre campagne promeut plusieurs produits, vous devez estimer comment vos ventes se répartissent (ex: sur 10 ventes, 7 sont du produit A <strong>et</strong> 3 du produit B). Cette estimation est cruciale pour un calcul réaliste.
                     </li>
                 </ol>
             </div>
+
             <div class="welcome-actions">
                 <div class="action-block">
                     <p>Besoin de mieux comprendre ?</p>
@@ -50,24 +59,29 @@
                     <button id="start-sim-btn" class="btn-primary">Commencer la simulation</button>
                 </div>
             </div>
+
             <div id="example-container" style="display: none;">
                 <h4>Exemple Détaillé</h4>
                 <p>
                     Vous investissez <strong>50 000 FCFA</strong> pour vendre <strong>7 Jus de Bissap</strong> (marge 300 F) et <strong>3 Jus de Gingembre</strong> (marge 350 F).
                 </p>
                 <p>
-                    <strong>Étape 1 :</strong> L'outil calcule le seuil de rentabilité (Point Mort).
+                    <strong>Étape 1 :</strong> L'outil calcule le seuil de rentabilité, qui est le CA à atteindre pour récupérer vos 50 000 FCFA (avec un bénéfice de 0). Le résultat sera : ~53 333 FCFA.
                 </p>
                 <p>
-                    <strong>Étape 2 :</strong> Si vous ajoutez un bénéfice, l'outil calcule le CA stratégique nécessaire pour générer ce gain net.
+                    <strong>Étape 2 :</strong> Vous ajoutez un objectif de bénéfice de <strong>100 000 FCFA</strong>. L'outil ne se contente pas d'ajouter 100 000 au CA. Il calcule le CA supplémentaire nécessaire pour **générer** 100 000 de bénéfice, en tenant compte de votre marge. Le nouvel objectif de CA sera bien plus élevé, et plus réaliste !
                 </p>
             </div>
+
         </div>
     </div>
 
+
     <div id="calculator-screen" style="display: none;">
         
-        <div id="pdf-content"> <div class="calculator-header">
+        <div id="pdf-content">
+            
+            <div class="calculator-header">
                 <div class="header-main">
                     <button id="back-to-welcome-btn" class="no-print">&larr; Retour</button>
                     <h1 class="app-logo-text">Rentacom</h1>
@@ -79,8 +93,10 @@
             </div>
 
             <main>
+                
                 <section id="inputs-section">
-                    <h2 class="section-title">1. Saisie des données</h2>
+                    <h2 class="section-title">1. Vos Données</h2>
+                    
                     <div class="input-group">
                         <label for="cout-campagne">Coût total de la campagne (FCFA)</label>
                         <input type="number" id="cout-campagne" placeholder="Ex: 50000">
@@ -88,15 +104,17 @@
 
                     <div id="produits-section">
                         <h3>Configuration du Mix Produit</h3>
+                        
                         <div id="produits-container" class="mono-produit">
                             <div class="produit-item">
                                 <input type="text" class="nom-produit" placeholder="Nom du produit">
-                                <input type="number" class="prix-vente" placeholder="Prix">
-                                <input type="number" class="cout-revient" placeholder="Coût">
-                                <input type="number" class="mix-ventes" placeholder="Ventes/10" value="10">
+                                <input type="number" class="prix-vente" placeholder="Prix de vente">
+                                <input type="number" class="cout-revient" placeholder="Coût de revient">
+                                <input type="number" class="mix-ventes" placeholder="Ventes sur 10" value="10">
                                 <button class="delete-btn no-print">X</button>
                             </div>
                         </div>
+
                         <button id="add-product-btn" class="no-print">+ Ajouter un produit</button>
                     </div>
                 </section>
@@ -105,33 +123,41 @@
                     <button id="calculate-btn" class="btn-primary">Calculer le Point Mort</button>
                 </div>
 
+
                 <section id="outputs-section" style="display: none;">
-                    <h2 class="section-title">2. Résultats de Simulation</h2>
+                    <h2 class="section-title">2. Analyse des Résultats</h2>
                     
                     <div id="resultat-seuil" class="result-box-base">
                         <p class="result-label">Seuil de Rentabilité (Point Mort) :</p>
                         <span id="seuil-valeur" class="main-number">...</span>
+                        
                         <p class="result-info">
-                            À ce niveau, votre bénéfice net est de 0 FCFA.
+                            Ce montant correspond à votre point mort, avec un bénéfice net = 0.
                             <br>
-                            <span class="warning-text-inline">En dessous de ce montant, vous compromettez les ressources nécessaires pour racheter vos matières premières. Vous "brûlez" votre capital de fonctionnement.</span>
+                            <span class="warning-text-inline">
+                                En dessous de ce montant de Chiffre d'Affaires, vous compromettez les ressources nécessaires pour racheter vos matières premières et assurer votre prochaine production. Vous "brûlez" votre capital de fonctionnement.
+                            </span>
                         </p>
+
                         <div class="quantities-list">
-                            <h4>Quantités minimales à vendre :</h4>
+                            <h4>Ventes minimales pour ce seuil :</h4>
                             <ul id="repartition-seuil"></ul>
                         </div>
                     </div>
 
                     <div id="advanced-options-section" class="strategy-box">
                         <h3>Définir vos objectifs de croissance</h3>
+                        
                         <div class="input-group">
                             <label for="benefice-souhaite">Objectif de bénéfice net (FCFA)</label>
                             <input type="number" id="benefice-souhaite" placeholder="Ex: 100000">
                         </div>
+
                         <div class="input-group">
                             <label for="coussin-securite">Coussin de sécurité (%)</label>
                             <input type="number" id="coussin-securite" placeholder="Ex: 15">
                         </div>
+
                         <div class="action-group no-print">
                             <button id="apply-advanced-btn" class="btn-secondary">Calculer l'Objectif Stratégique</button>
                         </div>
@@ -140,12 +166,15 @@
                     <div id="resultat-strategique" class="result-box-strategic" style="display: none;">
                         <p class="result-label">Objectif Stratégique (CA Cible) :</p>
                         <span id="strategique-valeur" class="main-number">...</span>
-                        <p class="result-info">Ce montant inclut votre bénéfice et votre marge de sécurité.</p>
+                        
+                        <p class="result-info">Ce montant inclut votre bénéfice souhaité et votre marge de sécurité.</p>
+                        
                         <div class="quantities-list">
-                            <h4>Répartition pour cet objectif :</h4>
+                            <h4>Répartition des ventes pour cet objectif :</h4>
                             <ul id="repartition-strategique"></ul>
                         </div>
                     </div>
+
 
                     <div id="date-prediction-section" class="prediction-box">
                         <div class="prediction-header">
@@ -155,22 +184,28 @@
                                 <line x1="8" y1="2" x2="8" y2="6"></line>
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
-                            <h3>Planification de l'objectif</h3>
+                            <h3>Estimation de la date de rentabilité</h3>
                         </div>
-                        <p class="small-info">Saisissez votre vitesse de vente pour estimer la date d'achèvement de l'objectif :</p>
-                        <div id="prediction-inputs-container"></div>
+
+                        <p class="small-info">Saisissez votre vitesse de vente habituelle pour chaque produit :</p>
+                        
+                        <div id="prediction-inputs-container">
+                            </div>
+
                         <div class="input-group">
-                            <label for="start-date-input">Début de la période de vente :</label>
+                            <label for="start-date-input">Date de lancement des ventes :</label>
                             <input type="date" id="start-date-input">
                         </div>
+
                         <div class="action-group no-print">
-                            <button id="predict-date-btn" class="btn-secondary">Estimer la date de succès</button>
+                            <button id="predict-date-btn" class="btn-secondary">Prédire la date de succès</button>
                         </div>
+
                         <div id="prediction-result" class="prediction-result-display" style="display: none;"></div>
                     </div>
 
                     <div class="action-group no-print" style="margin-top: 40px;">
-                        <button id="download-pdf-btn" class="btn-primary" style="background-color: #27ae60;">📥 Générer le Rapport PDF Professionnel</button>
+                        <button id="download-pdf-btn" class="btn-primary" style="background-color: #27ae60;">📥 Télécharger le Rapport PDF Professionnel</button>
                     </div>
 
                 </section>
@@ -179,5 +214,6 @@
             <p>Un outil conçu par <strong>Synaps LAB</strong></p>
         </footer>
     </div>
+
 </body>
 </html>
