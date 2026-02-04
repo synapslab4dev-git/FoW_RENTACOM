@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. ÉLÉMENTS DE L'INTERFACE ---
+    // --- 1. SÉLECTION DES ÉLÉMENTS UI ---
     const welcomeScreen = document.getElementById('welcome-screen');
     const calculatorScreen = document.getElementById('calculator-screen');
     const startSimBtn = document.getElementById('start-sim-btn');
@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
-    // --- 2. VARIABLES GLOBALES DE CALCUL ---
+    // --- 2. VARIABLES DE CALCUL ---
     let baseSeuilCA = 0;
     let currentTargetCA = 0;
-    let baseRepartitionPointMort = []; // Stocke les quantités pour le seuil
-    let currentRepartitionTarget = []; // Stocke les quantités pour l'objectif final
+    let baseRepartitionPM = []; // Quantités au Point Mort
+    let currentRepartitionTarget = []; // Quantités cibles réelles (Seuil ou Stratégique)
     let margeMoyennePourcentage = 0;
 
     // --- 3. NAVIGATION ---
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.classList.add('produit-item');
         div.innerHTML = `
-            <input type="text" class="nom-produit" placeholder="Nom">
+            <input type="text" class="nom-produit" placeholder="Nom du produit">
             <input type="number" class="prix-vente" placeholder="Prix">
             <input type="number" class="cout-revient" placeholder="Coût">
             <input type="number" class="mix-ventes" placeholder="Mix/10">
@@ -76,14 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     produitsContainer.addEventListener('click', (e) => {
         if (e.target.classList.contains('delete-btn')) {
-            e.target.parentElement.remove();
-            updateUIMode();
+            const items = document.querySelectorAll('.produit-item');
+            if (items.length > 1) {
+                e.target.parentElement.remove();
+                updateUIMode();
+            }
         }
     });
 
-    // --- 5. CALCULS FINANCIERS ---
+    // --- 5. CALCULS DE RENTABILITÉ ---
 
-    // Étape A : Calcul du Point Mort Initial
+    // Étape 1 : Calcul du Point Mort
     calculateBtn.addEventListener('click', () => {
         const cout = parseFloat(coutCampagneInput.value) || 0;
         const items = document.querySelectorAll('.produit-item');
@@ -97,7 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (prix > 0) produits.push({ nom, prix, coutR, mix });
         });
 
-        if (cout <= 0 || produits.length === 0) return alert("Veuillez remplir le coût et au moins un produit.");
+        if (cout <= 0 || produits.length === 0) {
+            alert("Remplissez le coût de campagne et au moins un produit.");
+            return;
+        }
 
         let margeT = 0, caT = 0, totalMix = 0;
         produits.forEach(p => {
@@ -106,30 +112,30 @@ document.addEventListener('DOMContentLoaded', () => {
             totalMix += p.mix;
         });
 
-        const margeMoyenneUnit = margeT / totalMix;
-        const caMoyenUnit = caT / totalMix;
-        margeMoyennePourcentage = caMoyenUnit > 0 ? (margeMoyenneUnit / caMoyenUnit) : 0;
+        const margeMoyUnitaire = margeT / totalMix;
+        const caMoyenUnitaire = caT / totalMix;
+        margeMoyennePourcentage = caMoyenUnitaire > 0 ? (margeMoyUnitaire / caMoyenUnitaire) : 0;
         
-        const qteTotaleSeuil = cout / margeMoyenneUnit;
-        baseSeuilCA = qteTotaleSeuil * caMoyenUnit;
-        currentTargetCA = baseSeuilCA; // Par défaut, la cible est le seuil
+        const qteTotaleSeuil = cout / margeMoyUnitaire;
+        baseSeuilCA = qteTotaleSeuil * caMoyenUnitaire;
+        currentTargetCA = baseSeuilCA; 
 
-        baseRepartitionPointMort = produits.map(p => ({
+        baseRepartitionPM = produits.map(p => ({
             nom: p.nom,
             quantite: Math.ceil(qteTotaleSeuil * (p.mix / totalMix))
         }));
-        currentRepartitionTarget = [...baseRepartitionPointMort];
+        currentRepartitionTarget = JSON.parse(JSON.stringify(baseRepartitionPM));
 
-        // Affichage Résultat 1
+        // UI
         seuilValeurSpan.textContent = `${Math.round(baseSeuilCA).toLocaleString('fr-FR')} FCFA`;
-        repartitionSeuilUl.innerHTML = baseRepartitionPointMort.map(p => `<li><strong>${p.quantite}</strong> ${p.nom}</li>`).join('');
+        repartitionSeuilUl.innerHTML = baseRepartitionPM.map(p => `<li><strong>${p.quantite}</strong> ${p.nom}</li>`).join('');
         
         outputsSection.style.display = 'block';
-        resultatStrategiqueDiv.style.display = 'none'; // Cacher le 2ème bloc au début
+        resultatStrategiqueDiv.style.display = 'none';
         genererChampsPrediction();
     });
 
-    // Étape B : Calcul de l'Objectif Stratégique (Bénéfice + Coussin)
+    // Étape 2 : Calcul Stratégique (Bénéfice + Sécurité)
     applyAdvancedBtn.addEventListener('click', () => {
         const benef = parseFloat(beneficeSouhaiteInput.value) || 0;
         const coussin = parseFloat(coussinSecuriteInput.value) || 0;
@@ -141,7 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const ratio = currentTargetCA / baseSeuilCA;
 
         strategiqueValeurSpan.textContent = `${Math.round(currentTargetCA).toLocaleString('fr-FR')} FCFA`;
-        currentRepartitionTarget = baseRepartitionPointMort.map(p => ({
+        
+        currentRepartitionTarget = baseRepartitionPM.map(p => ({
             nom: p.nom,
             quantite: Math.ceil(p.quantite * ratio)
         }));
@@ -149,17 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
         repartitionStrategiqueUl.innerHTML = currentRepartitionTarget.map(p => `<li><strong>${p.quantite}</strong> ${p.nom}</li>`).join('');
         resultatStrategiqueDiv.style.display = 'block';
         
-        // Mettre à jour les quantités dans la tête du calculateur de date
-        genererChampsPrediction();
+        // Mise à jour visuelle des quantités sans réinitialiser les inputs de vitesse
+        actualiserLibellesVitesse();
     });
 
-    // --- 6. LOGIQUE DE PRÉDICTION DE DATE ---
+    // --- 6. ESTIMATION TEMPORELLE ---
 
     function genererChampsPrediction() {
-        // On génère les inputs sur la base de la répartition ACTUELLE (Seuil ou Stratégique)
         predictionInputsContainer.innerHTML = currentRepartitionTarget.map((p, i) => `
             <div class="prediction-row">
-                <label>Vitesse pour <strong>${p.nom}</strong> :</label>
+                <label>Vitesse pour <span class="prod-name-label">${p.nom}</span> :</label>
                 <input type="number" class="vitesse-valeur" data-index="${i}" placeholder="Quantité">
                 <select class="vitesse-unite">
                     <option value="1">Par jour</option>
@@ -171,20 +177,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!startDateInput.value) startDateInput.valueAsDate = new Date();
     }
 
-    predictDateBtn.addEventListener('click', () => {
+    function actualiserLibellesVitesse() {
+        // Cette fonction permet de garder le focus sur l'objectif actuel (Seuil ou Stratégique)
+        // Elle ne réinitialise pas les inputs pour ne pas perdre la saisie de l'utilisateur
+        if(predictionResultDiv.style.display === 'block') {
+            calculerDate(); // Recalcule automatiquement si une date était déjà affichée
+        }
+    }
+
+    function calculerDate() {
         const rows = document.querySelectorAll('.prediction-row');
         let maxJours = 0;
         const dateDebut = new Date(startDateInput.value);
 
-        if (isNaN(dateDebut.getTime())) return alert("Choisissez une date valide.");
+        if (isNaN(dateDebut.getTime())) {
+            alert("Veuillez choisir une date de début valide.");
+            return;
+        }
 
         rows.forEach((row, i) => {
             const v = parseFloat(row.querySelector('.vitesse-valeur').value) || 0;
             const unite = parseFloat(row.querySelector('.vitesse-unite').value);
             if (v > 0) {
                 const parJour = v / unite;
-                const joursRequis = currentRepartitionTarget[i].quantite / parJour;
-                if (joursRequis > maxJours) maxJours = joursRequis;
+                const joursCible = currentRepartitionTarget[i].quantite / parJour;
+                if (joursCible > maxJours) maxJours = joursCible;
             }
         });
 
@@ -194,17 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             predictionResultDiv.innerHTML = `🏁 Objectif de <strong>${Math.round(currentTargetCA).toLocaleString()} FCFA</strong> atteint le :<br><strong>${dateFin.toLocaleDateString('fr-FR', options)}</strong>`;
             predictionResultDiv.style.display = 'block';
-        } else {
-            alert("Indiquez une vitesse de vente.");
         }
-    });
+    }
 
-    // --- 7. EXPORT PDF PROFESSIONNEL ---
+    predictDateBtn.addEventListener('click', calculerDate);
+
+    // --- 7. EXPORT PDF ---
     downloadPdfBtn.addEventListener('click', () => {
         const element = document.getElementById('pdf-content');
         const opt = {
             margin: 10,
-            filename: 'Rentacom_Simulation_SynapsLAB.pdf',
+            filename: 'Rentacom_Simulation.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
