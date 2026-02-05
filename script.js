@@ -235,17 +235,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 7. EXPORT PDF ---
+    // --- 7. EXPORT PDF ROBUSTE ---
     function downloadPDF() {
+        // 1. On cible l'élément à imprimer
         const element = document.getElementById('pdf-content');
+        
+        // 2. Configuration optimisée pour éviter les pages blanches
         const opt = {
-            margin:       10,
+            margin:       [10, 10, 10, 10], // Marges [Haut, Droite, Bas, Gauche]
             filename:     'Rentacom_Rapport_Simulation.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas:  { 
+                scale: 2, // Meilleure résolution
+                useCORS: true, 
+                scrollY: 0, // <--- C'EST LA CLÉ : Force le rendu depuis le haut absolu
+                windowWidth: document.documentElement.offsetWidth // Assure la largeur correcte
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            // Gestion intelligente des sauts de page pour ne pas couper les blocs en deux
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } 
         };
-        // C'est html2pdf qui fait le travail.
+
+        // 3. Génération
         html2pdf().set(opt).from(element).save();
     }
 
@@ -258,3 +269,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialisation
     updateUIMode();
 });
+
