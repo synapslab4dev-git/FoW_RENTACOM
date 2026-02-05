@@ -10,7 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- Librairie pour le PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4TL4C7F7J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K4TL4C7F7J');
+    </script>
+    
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -83,7 +94,6 @@
             <div class="calculator-header">
                 <div class="header-main">
                     <button id="back-to-welcome-btn" class="no-print">&larr; Retour</button>
-                    <!-- MODIFICATION ICI : Ajout du span by Synaps LAB -->
                     <h1 class="app-logo-text">
                         Rentacom <span class="header-by-synaps">by Synaps LAB</span>
                     </h1>
@@ -213,9 +223,35 @@
         </div> 
         
         <footer class="no-print">
-            <p>Un outil conçu par <strong>Synaps LAB</strong></p>
+            <div class="footer-section">
+                <p>Un outil conçu par <strong>Synaps LAB</strong></p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Nous contacter / Donner un feedback</h4>
+                <div class="contact-links">
+                    <a href="http://www.linkedin.com/in/françois-kinda-water-and-sustainable-development" target="_blank" class="contact-link">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14Zm-8 15v-7H8v7h3Zm-1.5-8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM18 18h-3v-3.5c0-.83-.02-1.9-1.16-1.9s-1.34.9-1.34 1.84V18h-3v-7h2.88v1.32h.04a3.1 3.1 0 0 1 2.8-1.54c3 0 3.56 1.97 3.56 4.54V18Z"/></svg>
+                        via LinkedIn
+                    </a>
+                    <a href="mailto:synaps.lab4dev@gmail.com" class="contact-link">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.7-8 4.63L4 8.7V6.29l8 4.63 8-4.63V8.7Z"/></svg>
+                        par Email
+                    </a>
+                    <a href="https://forms.gle/adNd5iDwnWD1XsARA" target="_blank" class="contact-link">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12.12 12.42a1 1 0 0 0-1.09.21L9.46 14.2a.5.5 0 0 1-.7.09l-.4-.28a1.69 1.69 0 0 0-1.48-.38l-.6.22a.51.51 0 0 1-.54-.11L4.2 12.18a.5.5 0 0 0-.64-.17l-.54.24a1.83 1.83 0 0 1-1.46-.33L1 11.52V18a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6.5l-.58.4a1.83 1.83 0 0 1-1.46.33l-.54-.24a.5.5 0 0 0-.64.17l-1.54 1.54a.51.51 0 0 1-.54.11l-.6-.22a1.69 1.69 0 0 0 1.48.38l-.4.28a.5.5 0 0 1-.7-.09l-1.57-1.57a1 1 0 0 0-.21-1.09ZM20 5H4a1 1 0 0 0-1 1v4.36l.57-.4c.9-.63 2.1-.56 2.94.18l.54.4a.5.5 0 0 0 .64-.17L9 8.05a.51.51 0 0 1 .54-.11l.6.22a1.69 1.69 0 0 0 1.48.38l.4.28a.5.5 0 0 1 0 .8l-1.57 1.57a1 1 0 0 0 .12 1.5l1.57 1.57a1 1 0 0 0 1.5-.12l1.57-1.57a.5.5 0 0 1 .8 0l.4.28a1.69 1.69 0 0 0 1.48-.38l.6-.22a.51.51 0 0 1 .54.11l1.54 1.54a.5.5 0 0 0 .64.17l.54-.4c.84-.74 2.04-.81 2.94-.18l.57.4V6a1 1 0 0 0-1-1Z"/></svg>
+                        Feedback Anonyme
+                    </a>
+                </div>
+            </div>
         </footer>
     </div>
+    
+    <!-- Script d'injection pour Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 
 </body>
 </html>
